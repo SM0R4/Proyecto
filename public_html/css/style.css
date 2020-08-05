@@ -1,0 +1,68 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 27, 2020, 8:18:07 PM
+    Author     : Sarah Mora
+*/
+
+.carousel-inner > .carousel-item > img{
+   height: 560px;
+   width: 100%;
+}
+.dropdown-menu > .dropdown-item:hover{
+    background-color: black;
+}
+@media only screen and (max-height: 558px) {
+    .carousel-inner > .carousel-item > img{
+        height: 400px;
+    }
+}
+@media only screen and (max-height: 520px) {
+    .carousel-inner > .carousel-item > img{
+        height: 300px;
+    }
+}
+.container-fluid > .row > .col-12 > img{
+    height: 200px;
+    width: 200px;
+}
+.contact-title{
+    margin-top: 100px;
+    color: #fff;
+    text-transform: uppercase;
+    transition: all 4s ease-in-out;
+    text-align: center;
+}
+.contact-title h1{
+    font-size: 32px;
+    line-height: 10 px;
+}
+.contact-title h2{
+    font-size: 16px;
+}
+form{
+    margin-top: 50px;
+    transition: all 4s ease-in-out;
+}
+.contact{
+    width: 50%;
+    height: 100%;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #555459;
+    text-align: center;
+}
+#dialog{
+    background-color: #555459;
+    color: white;
+    -webkit-box-shadow: 0px 0px 300px 200px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 300px 200px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 300px 200px rgba(0,0,0,0.75);
+}
