@@ -18,7 +18,7 @@ and open the template in the editor.
         <!-- Navigation -->
         <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html"><img src="imgs/carro (1).png"> TravelSite</a>
+                <a class="navbar-brand" href="index.php"><img src="imgs/carro (1).png"> TravelSite</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -37,7 +37,10 @@ and open the template in the editor.
                             </div>
                          </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Contactenos.html">Contáctenos</a>
+                            <a class="nav-link" href="Contactenos.php">Contáctenos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="personasAdmin.php">Registrarse</a>
                         </li>
                     </ul>
                 </div>

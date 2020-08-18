@@ -6,47 +6,46 @@
  * and open the template in the editor.
  */
 
-require_once ("../bo/personasBo.php");
-require_once ("../domain/personas.php");
+require_once ("../bo/vehiculosBo.php");
+require_once ("../domain/vehiculos.php");
 
-$obj_persona = new Usuario();
-$obj_persona->setPK_cedula(121212);
-$obj_persona->setNombre("Cristhian mod");
-$obj_persona->setApellido1("Garita");
-$obj_persona->setApellido2("Fonseca");
-$obj_persona->setSexo(1);
-$obj_persona->setObservaciones("Prueba");
-$obj_persona->setFecNacimiento("19850830");
-$obj_persona->setLastUser("chgari");
+$obj_vehiculo = new Vehiculo();
+$obj_vehiculo->setPlaca('123456');
+$obj_vehiculo->setAnnio(2010);
+$obj_vehiculo->setModelo('Tucsan');
+$obj_vehiculo->setColor('Negro');
+$obj_vehiculo->setPuntuacion(5);
+$obj_vehiculo->setEstado(1);
+$obj_vehiculo->setUbicacion_actual(array(9.959602199999999,-84.0468092));
 
-$bo_persona = new UsuarioBo();
+$bo_vehiculo = new VehiculoBo();
 
-$operacion = 4; //variable para pruebas
+$operacion = 1; //variable para pruebas
 
 switch ($operacion) {
     case 1: //Prueba para guardar en la base de datos
-        $bo_persona->add($obj_persona);
+        $bo_vehiculo->add($obj_vehiculo);
         echo("<h1>Prueba de agregar exitosa</h1>");
     break;
 
     case 2: //Prueba para modificar en la base de datos
-        $bo_persona->update($obj_persona);
+        $bo_vehiculo->update($obj_vehiculo);
         echo("<h1>Prueba de modificar exitosa</h1>");
     break;
 
     case 3: //Prueba para eliminar en la base de datos
-        $bo_persona->delete($obj_persona);
+        $bo_vehiculo->delete($obj_vehiculo);
         echo("<h1>Prueba de eliminar exitosa</h1>");
     break;
 
     case 4: //Prueba para consultar en la base de datos
-        $personaConsultada = $bo_persona->searchById($obj_persona);
+        $vehiculoConsultada = $bo_vehiculo->searchById($obj_vehiculo);
         echo("<h1>Prueba de consultar por ID exitosa exitosa</h1>");
-        echo (json_encode($personaConsultada));
+        echo (json_encode($vehiculoConsultada));
     break;
 
     case 5: //Prueba para consultar todos en la base de datos
-        $resutlado = $bo_persona->getAll();
+        $resutlado = $bo_vehiculo->getAll();
         echo("<h1>Prueba de consultar todos los registros exitosa</h1>");
         echo (json_encode($resutlado->GetArray()));
     break;

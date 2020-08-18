@@ -23,26 +23,29 @@ and open the template in the editor.
         <!-- Navigation -->
         <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html"><img src="imgs/carro (1).png">TravelSite</a>
+                <a class="navbar-brand" href="index.php"><img src="imgs/carro (1).png">TravelSite</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
+                            <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Información
                             </a>
                             <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item text-white" href="index.html#empresa">Historia de la empresa</a>
-                              <a class="dropdown-item text-white" href="index.html#institucion">Referentes institucionales</a>
+                              <a class="dropdown-item text-white" href="index.php#empresa">Historia de la empresa</a>
+                              <a class="dropdown-item text-white" href="index.php#institucion">Referentes institucionales</a>
                             </div>
                          </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contáctenos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="personasAdmin.php">Registrarse</a>
                         </li>
                     </ul>
                 </div>

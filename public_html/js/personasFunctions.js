@@ -5,7 +5,7 @@
 $(function () { //para la creación de los controles
     //agrega los eventos las capas necesarias
     $("#enviar").click(function () {
-        addOrUpdatePersonas();
+        addOrUpdateUsuarios();
     });
     //agrega los eventos las capas necesarias
     $("#cancelar").click(function () {
@@ -14,8 +14,8 @@ $(function () { //para la creación de los controles
 
     $("#btMostarForm").click(function () {
         //muestra el fomurlaior
-        clearFormPersonas();
-        $("#typeAction").val("add_personas");
+        clearFormUsuarios();
+        $("#typeAction").val("add_usuarios");
         $("#myModalFormulario").modal();
     });
     
@@ -36,20 +36,24 @@ $(document).ready(function () {
 //Agregar o modificar la información
 //*********************************************************************
 
-function addOrUpdatePersonas() {
+function addOrUpdateUsuarios() {
     //Se envia la información por ajax
     if (validar()) {
         $.ajax({
-            url: '../backend/controller/personasController.php',
+            url: '../backend/controller/usuariosController.php',
             data: {
                 action:         $("#typeAction").val(),
-                PK_cedula:      $("#txtPK_cedula").val(),
-                nombre:         $("#txtnombre").val(),
-                apellido1:      $("#txtapellido1").val(),
-                apellido2:      $("#txtapellido2").val(),
-                fecNacimiento:  $("#txtfecNacimiento").val(),
-                sexo:           $("#txtsexo").val(),
-                observaciones:  $("#txtobservaciones").val()
+                PK_Username:      $("#PK_Username").val(),
+                nombre:         $("#nombre").val(),
+                apellido1:      $("#apellido1").val(),
+                apellido2:      $("#apellido2").val(),
+                fecNacimiento:  $("#fecNacimiento").val(),
+                sexo:           $("#sexo").val(),
+                email:           $("#email").val(),
+                contrasena:  $("#contrasena").val(),
+                telefono:  $("#telefono").val(),
+                tipoUsuario:  $("#tipoUsuario").val(),
+                Ubicacion:  $("#Ubicacion").val()
             },
             error: function () { //si existe un error en la respuesta del ajax
                 swal("Error", "Se presento un error al enviar la informacion", "error");
@@ -60,8 +64,8 @@ function addOrUpdatePersonas() {
                 var typeOfMessage = messageComplete.substring(0, 2);
                 if (typeOfMessage === "M~") { //si todo esta corecto
                     swal("Confirmacion", responseText, "success");
-                    clearFormPersonas();
-                    $("#dt_personas").DataTable().ajax.reload();
+                    clearFormUsuarios();
+                    $("#dt_usuarios").DataTable().ajax.reload();
                 } else {//existe un error
                     swal("Error", responseText, "error");
                 }
@@ -81,33 +85,46 @@ function validar() {
     
     //valida cada uno de los campos del formulario
     //Nota: Solo si fueron digitados
-    if ($("#txtPK_cedula").val() === "") {
+    if ($("#PK_Username").val() === "") {
         validacion = false;
     }
 
-    if ($("#txtnombre").val() === "") {
+    if ($("#nombre").val() === "") {
         validacion = false;
     }
 
-    if ($("#txtapellido1").val() === "") {
+    if ($("#apellido1").val() === "") {
         validacion = false;
     }
 
-    if ($("#txtapellido2").val() === "") {
+    if ($("#apellido2").val() === "") {
         validacion = false;
     }
 
-    if ($("#txtfecNacimiento").val() === "") {
+    if ($("#fecNacimiento").val() === "") {
         validacion = false;
     }
 
-    if ($("#txtsexo").val() === "") {
+    if ($("#sexo").val() === "") {
         validacion = false;
     }
 
-    if ($("#txtobservaciones").val() === "") {
+    if ($("#contrasena").val() === "") {
         validacion = false;
     }
+    if ($("#email").val() === "") {
+        validacion = false;
+    }
+    if ($("#telefono").val() === "") {
+        validacion = false;
+    }
+    if ($("#tipoUsuario").val() === "") {
+        validacion = false;
+    }
+    if ($("#Ubicacion").val() === "") {
+        validacion = false;
+    }
+
 
 
     return validacion;
@@ -116,8 +133,8 @@ function validar() {
 //*****************************************************************
 //*****************************************************************
 
-function clearFormPersonas() {
-    $('#formPersonas').trigger("reset");
+function clearFormUsuarios() {
+    $('#formUsuarios').trigger("reset");
 }
 
 //*****************************************************************
@@ -125,8 +142,8 @@ function clearFormPersonas() {
 
 function cancelAction() {
     //clean all fields of the form
-    clearFormPersonas();
-    $("#typeAction").val("add_personas");
+    clearFormUsuarios();
+    $("#typeAction").val("add_usuarios");
     $("#myModalFormulario").modal("hide");
 }
 
@@ -135,29 +152,33 @@ function cancelAction() {
 //*****************************************************************
 //*****************************************************************
 
-function showPersonasByID(PK_cedula) {
+function showUsuariosByID(PK_Username) {
     //Se envia la información por ajax
     $.ajax({
-        url: '../backend/controller/personasController.php',
+        url: '../backend/controller/usuariosController.php',
         data: {
-            action: "show_personas",
-            PK_cedula: PK_cedula
+            action: "show_usuarios",
+            PK_Username: PK_Username
         },
         error: function () { //si existe un error en la respuesta del ajax
             swal("Error", "Se presento un error al consultar la informacion", "error");
         },
         success: function (data) { //si todo esta correcto en la respuesta del ajax, la respuesta queda en el data
-            var objPersonasJSon = JSON.parse(data);
-            $("#txtPK_cedula").val(objPersonasJSon.PK_cedula);
-            $("#txtnombre").val(objPersonasJSon.nombre);
-            $("#txtapellido1").val(objPersonasJSon.apellido1);
-            $("#txtapellido2").val(objPersonasJSon.apellido2);
-            $("#txtfecNacimiento").val(objPersonasJSon.fecNacimiento);
-            $("#txtsexo").val(objPersonasJSon.sexo);
-            $("#txtobservaciones").val(objPersonasJSon.observaciones);
-            $("#typeAction").val("update_personas");
+            var objUsuariosJSon = JSON.parse(data);
+            $("#PK_Username").val(objUsuariosJSon.PK_Username);
+            $("#nombre").val(objUsuariosJSon.nombre);
+            $("#apellido1").val(objUsuariosJSon.apellido1);
+            $("#apellido2").val(objUsuariosJSon.apellido2);
+            $("#fecNacimiento").val(objUsuariosJSon.fecNacimiento);
+            $("#sexo").val(objUsuariosJSon.sexo);
+            $("#contrasena").val(objUsuariosJSon.contrasena);
+            $("#email").val(objUsuariosJSon.email);
+            $("#telefono").val(objUsuariosJSon.telefono);
+            $("#tipoUsuario").val(objUsuariosJSon.tipoUsuario);
+            $("#Ubicacion").val(objUsuariosJSon.Ubicacion);
+            $("#typeAction").val("update_usuarios");
             
-            swal("Confirmacion", "Los datos de la persona fueron cargados correctamente", "success");
+            swal("Confirmacion", "Los datos de la usuario fueron cargados correctamente", "success");
         },
         type: 'POST'
     });
@@ -166,13 +187,13 @@ function showPersonasByID(PK_cedula) {
 //*****************************************************************
 //*****************************************************************
 
-function deletePersonasByID(PK_cedula) {
+function deleteUsuariosByID(PK_Username) {
     //Se envia la información por ajax
     $.ajax({
-        url: '../backend/controller/personasController.php',
+        url: '../backend/controller/usuariosController.php',
         data: {
-            action: "delete_personas",
-            PK_cedula: PK_cedula
+            action: "delete_usuarios",
+            PK_Username: PK_Username
         },
         error: function () { //si existe un error en la respuesta del ajax
             swal("Error", "Se presento un error al eliminar la informacion", "error");
@@ -182,8 +203,8 @@ function deletePersonasByID(PK_cedula) {
             var typeOfMessage = data.trim().substring(0, 2);
             if (typeOfMessage === "M~") { //si todo esta corecto
                 swal("Confirmacion", responseText, "success");
-                clearFormPersonas();
-                $("#dt_personas").DataTable().ajax.reload();
+                clearFormUsuarios();
+                $("#dt_usuarios").DataTable().ajax.reload();
             } else {//existe un error
                 swal("Error", responseText, "error");
             }
@@ -204,9 +225,9 @@ function cargarTablas() {
 
 
 
-    var dataTablePersonas_const = function () {
-        if ($("#dt_personas").length) {
-            $("#dt_personas").DataTable({
+    var dataTableUsuarios_const = function () {
+        if ($("#dt_usuarios").length) {
+            $("#dt_usuarios").DataTable({
                 dom: "Bfrtip",
                 bFilter: false,
                 ordering: false,
@@ -233,8 +254,8 @@ function cargarTablas() {
                         targets: 6,
                         className: "dt-center",
                         render: function (data, type, row, meta) {
-                            var botones = '<button type="button" class="btn btn-default btn-xs" aria-label="Left Align" onclick="showPersonasByID(\''+row[0]+'\');">Cargar</button> ';
-                            botones += '<button type="button" class="btn btn-default btn-xs" aria-label="Left Align" onclick="deletePersonasByID(\''+row[0]+'\');">Eliminar</button>';
+                            var botones = '<button type="button" class="btn btn-default btn-xs" aria-label="Left Align" onclick="showUsuariosByID(\''+row[0]+'\');">Cargar</button> ';
+                            botones += '<button type="button" class="btn btn-default btn-xs" aria-label="Left Align" onclick="deleteUsuariosByID(\''+row[0]+'\');">Eliminar</button>';
                             return botones;
                         }
                     }
@@ -243,16 +264,16 @@ function cargarTablas() {
                 pageLength: 2,
                 language: dt_lenguaje_espanol,
                 ajax: {
-                    url: '../backend/controller/personasController.php',
+                    url: '../backend/controller/usuariosController.php',
                     type: "POST",
                     data: function (d) {
                         return $.extend({}, d, {
-                            action: "showAll_personas"
+                            action: "showAll_usuarios"
                         });
                     }
                 },
                 drawCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                    $('#dt_personas').DataTable().columns.adjust().responsive.recalc();
+                    $('#dt_usuarios').DataTable().columns.adjust().responsive.recalc();
                 }
             });
         }
@@ -264,7 +285,7 @@ function cargarTablas() {
         "use strict";
         return {
             init: function () {
-                dataTablePersonas_const();
+                dataTableUsuarios_const();
                 $(".dataTables_filter input").addClass("form-control input-rounded ml-sm");
             }
         };
@@ -278,5 +299,5 @@ function cargarTablas() {
 //*******************************************************************************
 
 window.onresize = function () {
-    $('#dt_personas').DataTable().columns.adjust().responsive.recalc();
+    $('#dt_usuarios').DataTable().columns.adjust().responsive.recalc();
 };

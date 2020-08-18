@@ -1,7 +1,7 @@
 <?php
 
 require_once("adodb5/adodb.inc.php");
-require_once("../domain/personas.php");
+require_once("../domain/usuarios.php");
 
 /**
  * 
@@ -41,8 +41,8 @@ class UsuarioDao {
 
     public function add(Usuario $usuario) {
         try {
-            $sql = sprintf("insert into mydb.usuario (PK_Username, nombre, contrasena, apellido1, apellido2, email, fecNacimiento, telefono, tipoUsuario, Ubicacion, sexo, LASTUSER, LASTMODIFICATION) 
-                                          values (%s,%s,%s,%s,%s,%s,%s,%s,CURDATE())",
+            $sql = sprintf("insert into travelSiteDB.usuario (PK_Username, nombre, contrasena, apellido1, apellido2, email, fecNacimiento, telefono, tipoUsuario, Ubicacion, sexo) 
+                                          values (%s,%s,%s,%s,%s,%s,%s,%s,%s,point(%s,%s),%s)",
                     $this->labAdodb->Param("PK_Username"),
                     $this->labAdodb->Param("nombre"),
                     $this->labAdodb->Param("contrasena"),
@@ -52,9 +52,9 @@ class UsuarioDao {
                     $this->labAdodb->Param("fecNacimiento"),
                     $this->labAdodb->Param("telefono"),
                     $this->labAdodb->Param("tipoUsuario"),
-                    $this->labAdodb->Param("Ubicacion"),
-                    $this->labAdodb->Param("sexo"),
-                    $this->labAdodb->Param("LASTUSER"));
+                    $this->labAdodb->Param("lat"),
+                    $this->labAdodb->Param("long"),
+                    $this->labAdodb->Param("sexo"));
             $sqlParam = $this->labAdodb->Prepare($sql);
 
             $valores = array();
@@ -66,11 +66,11 @@ class UsuarioDao {
             $valores["apellido2"]       = $usuario->getapellido2();
             $valores["email"]           = $usuario->getemail();
             $valores["fecNacimiento"]   = $usuario->getfecNacimiento();
-            $valores["telefono"]        = $usuario->getelefono();
+            $valores["telefono"]        = $usuario->gettelefono();
             $valores["tipoUsuario"]     = $usuario->gettipoUsuario();
-            $valores["Ubicacion"]       = $usuario->getUbicacion();
+            $valores["lat"]             = $usuario->getUbicacion()[0];
+            $valores["long"]            = $usuario->getUbicacion()[1];
             $valores["sexo"]            = $usuario->getsexo();
-            $valores["LASTUSER"]        = $usuario->getLastUser();
 
             $this->labAdodb->Execute($sqlParam, $valores) or die($this->labAdodb->ErrorMsg());
         } catch (Exception $e) {
@@ -85,12 +85,12 @@ class UsuarioDao {
     public function exist(Usuario $usuario) {
         $exist = false;
         try {
-            $sql = sprintf("select * from travelSiteDB.Usuario where  PK_cedula = %s ",
-                            $this->labAdodb->Param("PK_cedula"));
+            $sql = sprintf("select * from travelSiteDB.Usuario where  PK_Username = %s ",
+                            $this->labAdodb->Param("PK_Username"));
             $sqlParam = $this->labAdodb->Prepare($sql);
 
             $valores = array();
-            $valores["PK_cedula"] = $usuario->getPK_cedula();
+            $valores["PK_Username"] = $usuario->getPK_Username();
 
             $resultSql = $this->labAdodb->Execute($sqlParam, $valores) or die($this->labAdodb->ErrorMsg());
             if ($resultSql->RecordCount() > 0) {
@@ -108,35 +108,44 @@ class UsuarioDao {
 
     public function update(Usuario $usuario) {
         try {
-            $sql = sprintf("update Usuario set nombre = %s, 
+            $sql = sprintf("update Usuario set PK_Username = %s,
+                                                nombre = %s,
+                                                contrasena = %s,
                                                 apellido1 = %s, 
                                                 apellido2 = %s, 
+                                                email = %s, 
                                                 fecNacimiento = %s, 
-                                                sexo = %s, 
-                                                observaciones = %s, 
-                                                LASTUSER = %s, 
-                                                LASTMODIFICATION = CURDATE() 
-                            where PK_cedula = %s",
+                                                telefono = %s,  
+                                                tipoUsuario = %s, 
+                                                Ubicacion = point(%s,%s), 
+                                                sexo = %s
+                            where PK_Username = %s",
                     $this->labAdodb->Param("nombre"),
+                    $this->labAdodb->Param("contrasena"),
                     $this->labAdodb->Param("apellido1"),
                     $this->labAdodb->Param("apellido2"),
+                    $this->labAdodb->Param("email"),
                     $this->labAdodb->Param("fecNacimiento"),
+                    $this->labAdodb->Param("telefono"),
+                    $this->labAdodb->Param("tipoUsuario"),
+                    $this->labAdodb->Param("Ubicacion"),
                     $this->labAdodb->Param("sexo"),
-                    $this->labAdodb->Param("observaciones"),
-                    $this->labAdodb->Param("LASTUSER"),
-                    $this->labAdodb->Param("PK_cedula"));
+                    $this->labAdodb->Param("PK_Username"));
             $sqlParam = $this->labAdodb->Prepare($sql);
 
             $valores = array();
 
             $valores["nombre"]          = $usuario->getnombre();
+            $valores["contrasena"]      = $usuario->getcontrasena();
             $valores["apellido1"]       = $usuario->getapellido1();
             $valores["apellido2"]       = $usuario->getapellido2();
+            $valores["email"]           = $usuario->getemail();
             $valores["fecNacimiento"]   = $usuario->getfecNacimiento();
+            $valores["telefono"]        = $usuario->gettelefono();
+            $valores["tipoUsuario"]     = $usuario->gettipoUsuario();
+            $valores["Ubicacion"]       = $usuario->getUbicacion();
             $valores["sexo"]            = $usuario->getsexo();
-            $valores["observaciones"]   = $usuario->getobservaciones();
-            $valores["LASTUSER"]        = $usuario->getLastUser();
-            $valores["PK_cedula"]       = $usuario->getPK_cedula();
+            $valores["PK_Username"]       = $usuario->getPK_Username();
             $this->labAdodb->Execute($sqlParam, $valores) or die($this->labAdodb->ErrorMsg());
         } catch (Exception $e) {
             throw new Exception('No se pudo actualizar el registro (Error generado en el metodo update de la clase UsuarioDao), error:'.$e->getMessage());
@@ -151,11 +160,11 @@ class UsuarioDao {
 
         
         try {
-            $sql = sprintf("delete from Usuario where  PK_cedula = %s",
-                            $this->labAdodb->Param("PK_cedula"));
+            $sql = sprintf("delete from Usuario where  PK_Username = %s",
+                            $this->labAdodb->Param("PK_Username"));
             $sqlParam = $this->labAdodb->Prepare($sql);
             $valores = array();
-            $valores["PK_cedula"] = $usuario->getPK_cedula();
+            $valores["PK_Username"] = $usuario->getPK_Username();
 
             $this->labAdodb->Execute($sqlParam, $valores) or die($this->labAdodb->ErrorMsg());
         } catch (Exception $e) {
@@ -170,23 +179,27 @@ class UsuarioDao {
     public function searchById(Usuario $usuario) {
         $returnUsuario = null;
         try {
-            $sql = sprintf("select * from Usuario where  PK_cedula = %s",
-                            $this->labAdodb->Param("PK_cedula"));
+            $sql = sprintf("select * from Usuario where  PK_Username = %s",
+                            $this->labAdodb->Param("PK_Username"));
             $sqlParam = $this->labAdodb->Prepare($sql);
 
             $valores = array();
-            $valores["PK_cedula"] = $usuario->getPK_cedula();
+            $valores["PK_Username"] = $usuario->PK_Username();
             $resultSql = $this->labAdodb->Execute($sqlParam, $valores) or die($this->labAdodb->ErrorMsg());
             
             if ($resultSql->RecordCount() > 0) {
                 $returnUsuario = Usuario::createNullUsuario();
-                $returnUsuario->setPK_cedula($resultSql->Fields("PK_cedula"));
+                $returnUsuario->setPK_Username($resultSql->Fields("PK_Username"));
                 $returnUsuario->setnombre($resultSql->Fields("nombre"));
+                $returnUsuario->setcontrasena($resultSql->Fields("contrasena"));
                 $returnUsuario->setapellido1($resultSql->Fields("apellido1"));
                 $returnUsuario->setapellido2($resultSql->Fields("apellido2"));
+                $returnUsuario->setemail($resultSql->Fields("email"));
                 $returnUsuario->setfecNacimiento($resultSql->Fields("fecNacimiento"));
+                $returnUsuario->settelefono($resultSql->Fields("telefono"));
+                $returnUsuario->settipoUsuario($resultSql->Fields("tipoUsuario"));
+                $returnUsuario->setUbicacion($resultSql->Fields("Ubicacion"));
                 $returnUsuario->setsexo($resultSql->Fields("sexo"));
-                $returnUsuario->setobservaciones($resultSql->Fields("observaciones"));
             }
         } catch (Exception $e) {
             throw new Exception('No se pudo consultar el registro (Error generado en el metodo searchById de la clase UsuarioDao), error:'.$e->getMessage());
@@ -200,7 +213,7 @@ class UsuarioDao {
     
     public function getAll() {
         try {
-            $sql = sprintf("select * from mydb.usuario");
+            $sql = sprintf("select * from travelSiteDB.usuario");
             $resultSql = $this->labAdodb->Execute($sql);
             return $resultSql;
         } catch (Exception $e) {

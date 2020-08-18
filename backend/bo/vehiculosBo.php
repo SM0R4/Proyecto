@@ -1,8 +1,8 @@
 <?php
 
 
-require_once("../domain/personas.php");
-require_once("../dao/personasDao.php");
+require_once("../domain/vehiculos.php");
+require_once("../dao/vehiculosDao.php");
 
 /**
  * @author ChGari
@@ -10,32 +10,32 @@ require_once("../dao/personasDao.php");
  * Comment: It was created
  *
  */
-class UsuarioBo {
+class VehiculoBo {
 
-    private $usuarioDao;
+    private $vehiculoDao;
 
     public function __construct() {
-        $this->usuarioDao = new UsuarioDao();
+        $this->vehiculoDao = new VehiculoDao();
     }
 
-    public function getUsuarioDao() {
-        return $this->usuarioDao;
+    public function getVehiculoDao() {
+        return $this->vehiculoDao;
     }
 
-    public function setUsuarioDao(UsuarioDao $usuarioDao) {
-        $this->usuarioDao = $usuarioDao;
+    public function setVehiculoDao(VehiculoDao $vehiculoDao) {
+        $this->vehiculoDao = $vehiculoDao;
     }
 
     //***********************************************************
     //agrega a una persona a la base de datos
     //***********************************************************
 
-    public function add(Usuario $usuario) {
+    public function add(Vehiculo $vehiculo) {
         try {
-            if (!$this->usuarioDao->exist($usuario)) {
-                $this->usuarioDao->add($usuario);
+            if (!$this->vehiculoDao->exist($vehiculo)) {
+                $this->vehiculoDao->add($vehiculo);
             } else {
-                throw new Exception("El Usuario ya existe en la base de datos!!");
+                throw new Exception("El Vehiculo ya existe en la base de datos!!");
             }
         } catch (Exception $e) {
             throw $e;
@@ -46,9 +46,9 @@ class UsuarioBo {
     //modifica a una persona a la base de datos
     //***********************************************************
 
-    public function update(Usuario $usuario) {
+    public function update(Vehiculo $vehiculo) {
         try {
-            $this->usuarioDao->update($usuario);
+            $this->vehiculoDao->update($vehiculo);
         } catch (Exception $e) {
             throw $e;
         }
@@ -58,9 +58,9 @@ class UsuarioBo {
     //eliminar a una persona a la base de datos
     //***********************************************************
 
-    public function delete(Usuario $usuario) {
+    public function delete(Vehiculo $vehiculo) {
         try {
-            $this->usuarioDao->delete($usuario);
+            $this->vehiculoDao->delete($vehiculo);
         } catch (Exception $e) {
             throw $e;
         }
@@ -70,21 +70,21 @@ class UsuarioBo {
     //consulta a una persona a la base de datos
     //***********************************************************
 
-    public function searchById(Usuario $usuario) {
+    public function searchById(Vehiculo $vehiculo) {
         try {
-            return $this->usuarioDao->searchById($usuario);
+            return $this->vehiculoDao->searchById($vehiculo);
         } catch (Exception $e) {
             throw $e;
         }
     }
 
     //***********************************************************
-    //consultar todas las usuarios de la base de datos
+    //consultar todas las vehiculos de la base de datos
     //***********************************************************
 
     public function getAll() {
         try {
-            return $this->usuarioDao->getAll();
+            return $this->vehiculoDao->getAll();
         } catch (Exception $e) {
             throw $e;
         }
@@ -92,5 +92,5 @@ class UsuarioBo {
 
 }
 
-//end of the class UsuarioBo
+//end of the class VehiculoBo
 ?>

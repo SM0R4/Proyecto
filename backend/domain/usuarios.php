@@ -33,7 +33,7 @@ class Usuario extends BaseDomain implements \JsonSerializable{
         return $instance;
     }
 
-    public static function createUsuario($PK_Username, $nombre, $contrasena, $apellido1, $apellido2, $email, $fecNacimiento, $sexo, $telefono, $tipoUsuario, $Ubicacion, $ultUsuario, $ultModificacion, $lastUser, $lastModification) {
+    public static function createUsuario($PK_Username, $nombre, $contrasena, $apellido1, $apellido2, $email, $fecNacimiento, $sexo, $telefono, $tipoUsuario, $Ubicacion) {
         $instance = new self();
         $instance->PK_Username        = $PK_Username;
         $instance->nombre           = $nombre;
@@ -46,8 +46,6 @@ class Usuario extends BaseDomain implements \JsonSerializable{
         $instance->telefono         = $telefono;
         $instance->tipoUsuario      = $tipoUsuario;
         $instance->Ubicacion        = $Ubicacion;
-        $instance->setLastUser($ultUsuario);
-        $instance->setLastModification($ultModificacion);
         return $instance;
     }
 
@@ -164,13 +162,6 @@ class Usuario extends BaseDomain implements \JsonSerializable{
 
     /****************************************************************************/
 
-    public function getUltUsuario() {
-        return $this->ultUsuario;
-    }
-
-    public function setUltUsuario($ultUsuario) {
-        $this->ultUsuario = $ultUsuario;
-    }
 
     /****************************************************************************/
     //Convertir el obj a JSON
